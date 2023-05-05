@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import SettingsIcon from "./SettingsIcon";
 import { v4 as uuidv4 } from "uuid";
-import logo192 from "../img/logo192.png";
+import coachken from "../img/coachken.PNG";
 import SetAvatar from "./SetAvatar";
 
 export default function ChatContainer({ currentChat, socket }) {
@@ -52,14 +52,9 @@ export default function ChatContainer({ currentChat, socket }) {
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
-            {selectedAvatar !== undefined ? (
-              <img src={selectedAvatar} alt="" />
-            ) : (
-              <img src={logo192} alt="" />
-            )}
-          </div>
-          <div className="username">
-            <h3>Timothy</h3>
+          
+          <img src={coachken} alt="" />
+            
           </div>
         </div>
         <SettingsIcon />
