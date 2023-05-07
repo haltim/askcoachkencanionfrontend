@@ -141,13 +141,13 @@ const Container = styled.div`
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #412cb6;
+        background-color: #455cf6;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color: #4169e1;
+        background-color: #424242;
       }
     }
   }
