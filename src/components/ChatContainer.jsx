@@ -93,6 +93,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+    height: 4.9rem;
     background-color: #ffffff39;
     .user-details {
       display: flex;
@@ -127,6 +128,7 @@ const Container = styled.div`
     .message {
       display: flex;
       align-items: center;
+      margin-top: 0.7rem;
       .content {
         max-width: 40%;
         overflow-wrap: break-word;
