@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
 
+
+
 export default function ChatInput({ handleSendMsg }) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -37,7 +39,7 @@ export default function ChatInput({ handleSendMsg }) {
       <form className="input-container" onSubmit={(event) => sendChat(event)}>
         <input
           type="text"
-          placeholder="type your message here"
+          placeholder="type your question here"
           onChange={(e) => setMsg(e.target.value)}
           value={msg}
         />
