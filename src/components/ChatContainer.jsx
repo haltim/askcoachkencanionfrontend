@@ -94,7 +94,7 @@ const Container = styled.div`
     align-items: center;
     padding: 0 2rem;
     height: 4.9rem;
-    background-color: #ffffff39;
+    background-color: white;
     .user-details {
       display: flex;
       align-items: center;
