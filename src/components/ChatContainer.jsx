@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import ChatInput from "./ChatInput";
 import SettingsIcon from "./SettingsIcon";
+import Logout from "./Logout";
 import { v4 as uuidv4 } from "uuid";
 import coachken from "../img/coachken.PNG";
 import SetAvatar from "./SetAvatar";
@@ -52,9 +53,7 @@ export default function ChatContainer({ currentChat, socket }) {
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
-          
           <img src={coachken} alt="" />
-            
           </div>
         </div>
         <SettingsIcon />
@@ -93,13 +92,15 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+    height: 4.9rem;
+    background-color: white;
     .user-details {
       display: flex;
       align-items: center;
       gap: 1rem;
       .avatar {
         img {
-          height: 3rem;
+          height: 4.3rem;
         }
       }
       .username {
@@ -126,6 +127,7 @@ const Container = styled.div`
     .message {
       display: flex;
       align-items: center;
+      margin-top: 0.7rem;
       .content {
         max-width: 40%;
         overflow-wrap: break-word;
@@ -141,13 +143,13 @@ const Container = styled.div`
     .sended {
       justify-content: flex-end;
       .content {
-        background-color: #412cb6;
+        background-color: #455cf6;
       }
     }
     .recieved {
       justify-content: flex-start;
       .content {
-        background-color: #4169e1;
+        background-color: #424242;
       }
     }
   }

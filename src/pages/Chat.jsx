@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import styled from "styled-components";
+import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +11,8 @@ export default function Chat() {
   const socket = useRef();
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
+
+  
 
   // Simulating static data for currentUser
   useEffect(() => {
@@ -50,11 +54,11 @@ const Container = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #ff8c00;
+  background-color: #424242;
   .container {
     height: 85vh;
     width: 85vw;
-    background-color: #ff7f50;
+    background-color: #D3D3D3;
     display: grid;
     @media screen and (min-width: 720px) and (max-width: 1080px) {
       grid-template-columns: 35% 65%;

@@ -55,7 +55,7 @@ const Container = styled.div`
   grid-template-columns: 5% 95%;
   background-color: #080420;
   padding: 0 2rem;
-  @media screen and (min-width: 720px) and (max-width: 1080px) {
+  @media screen and (min-width: 720px) and (max-width: 1080px){
     padding: 0 1rem;
     gap: 1rem;
   }
@@ -97,6 +97,7 @@ const Container = styled.div`
           background-color: #080420;
         }
       }
+     
     }
   }
   .input-container {
@@ -128,7 +129,7 @@ const Container = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #cd1c8f;
+      background-color: #424242;
       border: none;
       @media screen and (min-width: 720px) and (max-width: 1080px) {
         padding: 0.3rem 1rem;

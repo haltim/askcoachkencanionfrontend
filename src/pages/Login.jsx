@@ -7,7 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/APIRoutes";
 import coachken from "../img/coachken.PNG";
 
-export default function Login() {
+
+export default function Login(props) {
   const navigate = useNavigate();
   const [values, setValues] = useState({ username: "", password: "" });
   const toastOptions = {
@@ -17,11 +18,7 @@ export default function Login() {
     draggable: true,
     theme: "dark",
   };
-  useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/");
-    }
-  }, []);
+
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -40,24 +37,21 @@ export default function Login() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (validateForm()) {
-      const { username, password } = values;
-      const { data } = await axios.post(loginRoute, {
-        username,
-        password,
-      });
-      if (data.status === false) {
-        toast.error(data.msg, toastOptions);
-      }
-      if (data.status === true) {
-        localStorage.setItem(
-          process.env.REACT_APP_LOCALHOST_KEY,
-          JSON.stringify(data.user)
-        );
-
+    try {
+      event.preventDefault();
+      const isValid = validateForm();
+      if (isValid) {
+        const response = await axios.post("http://localhost:8000/login", values);
+        const { message, user } = response.data;
+        alert(message);
+        props.setUserr(user);
         navigate("/");
+      } else {
+        throw new Error("Form validation failed");
       }
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
     }
   };
 
@@ -66,7 +60,7 @@ export default function Login() {
       <FormContainer>
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
-          <img src={coachken} alt="" />
+            <img src={coachken} alt="" />
             <h1>Ask Coach Ken</h1>
           </div>
           <input

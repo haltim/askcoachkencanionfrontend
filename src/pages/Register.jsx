@@ -23,11 +23,7 @@ export default function Register() {
     confirmPassword: "",
   });
 
-  useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/");
-    }
-  }, []);
+
 
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -62,28 +58,27 @@ export default function Register() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (handleValidation()) {
-      const { email, username, password } = values;
-      const { data } = await axios.post(registerRoute, {
-        username,
-        email,
-        password,
-      });
-
-      if (data.status === false) {
-        toast.error(data.msg, toastOptions);
+    try {
+      event.preventDefault();
+      const isValid = handleValidation();
+      if (isValid) {
+        const { username, email, password, confirmPassword } = values;
+        if (username && email && password && password === confirmPassword) {
+          const response = await axios.post("http://localhost:8000/register", values);
+          console.log(response);
+          alert("Posted");
+          navigate("/login");
+        } else {
+          throw new Error("Invalid form input");
+        }
+      } else {
+        throw new Error("Validation failed");
       }
-      if (data.status === true) {
-        localStorage.setItem(
-          process.env.REACT_APP_LOCALHOST_KEY,
-          JSON.stringify(data.user)
-        );
-        navigate("/setAvatar");
-      }
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
     }
   };
-
   return (
     <>
       <FormContainer>
@@ -118,7 +113,7 @@ export default function Register() {
           />
           <button type="submit">Create User</button>
           <span>
-            Already have an account ? <Link to="/login">Login.</Link>
+            Already have an account ? <Link to="/">Login.</Link>
           </span>
         </form>
       </FormContainer>
