@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/APIRoutes";
 import coachken from "../img/coachken.PNG";
+import LazyLoad from "react-lazyload";
 
 
 export default function Login(props) {
@@ -60,8 +61,10 @@ export default function Login(props) {
       <FormContainer>
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
-            <img src={coachken} alt="" />
-            <h1>Ask Coach Ken</h1>
+            <LazyLoad once>
+              <img src={coachken} alt="" />
+            </LazyLoad>
+            <h1>Ask Coach Canion</h1>
           </div>
           <input
             type="text"
@@ -95,7 +98,7 @@ const FormContainer = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #ff8c00;
+  background-color: #D3D3D3;
   .brand {
     display: flex;
     align-items: center;
@@ -114,14 +117,14 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color:  #ff7f50;
+    background-color:  #424242;
     border-radius: 2rem;
     padding: 5rem;
   }
   input {
     background-color: white;
     padding: 1rem;
-    border: 0.1rem solid #d65793;
+    border: 0.1rem solid #D3D3D3;
     border-radius: 0.4rem;
     color: black;
     width: 100%;
@@ -132,8 +135,8 @@ const FormContainer = styled.div`
     }
   }
   button {
-    background-color: #ed009a;
-    color: white;
+    background-color: #D3D3D3;
+    color: #424242;
     padding: 1rem 2rem;
     border: none;
     font-weight: bold;
@@ -142,14 +145,14 @@ const FormContainer = styled.div`
     font-size: 1rem;
     text-transform: uppercase;
     &:hover {
-      background-color: #d8498c;
+      background-color: white;
     }
   }
   span {
     color: white;
     text-transform: uppercase;
     a {
-      color: #4e0eff;
+      color: #D3D3D3;
       text-decoration: none;
       font-weight: bold;
     }
