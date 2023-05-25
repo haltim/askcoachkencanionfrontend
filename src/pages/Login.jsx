@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/APIRoutes";
+import axios from "axios";
 import coachken from "../img/coachken.PNG";
 import LazyLoad from "react-lazyload";
 
 
 export default function Login(props) {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ username: "", password: "" });
+  const [values, setValues] = useState({ email: "", password: "" });
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -26,8 +26,8 @@ export default function Login(props) {
   };
 
   const validateForm = () => {
-    const { username, password } = values;
-    if (username === "") {
+    const { email, password } = values;
+    if (email === "") {
       toast.error("Email and Password is required.", toastOptions);
       return false;
     } else if (password === "") {
@@ -38,14 +38,18 @@ export default function Login(props) {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
+    const details = values;
     try {
-      event.preventDefault();
       const isValid = validateForm();
       if (isValid) {
-        const response = await axios.post("http://localhost:8000/login", values);
-        const { message, user } = response.data;
-        alert(message);
-        props.setUserr(user);
+        const response = await axios.post(
+          "http://localhost:4000/user/login",
+          details
+        );
+        console.log(response);
+        localStorage.clear();
+        localStorage.setItem("token", JSON.stringify(response.data.token));
         navigate("/");
       } else {
         throw new Error("Form validation failed");
@@ -69,7 +73,7 @@ export default function Login(props) {
           <input
             type="text"
             placeholder="Username"
-            name="username"
+            name="email"
             onChange={(e) => handleChange(e)}
             min="3"
           />

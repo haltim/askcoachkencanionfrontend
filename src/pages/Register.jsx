@@ -58,20 +58,20 @@ export default function Register() {
     return true;
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit= (event)=> {
+    const details = values;
     try {
       event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
-        const { username, email, password, confirmPassword } = values;
-        if (username && email && password && password === confirmPassword) {
-          const response = await axios.post("http://localhost:8000/register", values);
-          console.log(response);
-          alert("Posted");
-          navigate("/login");
-        } else {
-          throw new Error("Invalid form input");
-        }
+        axios
+          .post("http://localhost:4000/user/signup", details)
+          .then((res) => {
+            console.log(res);
+            localStorage.clear();
+            localStorage.setItem("token", JSON.stringify(res.data.token));
+            navigate("/login");
+          })
       } else {
         throw new Error("Validation failed");
       }
@@ -80,6 +80,7 @@ export default function Register() {
       alert(error.message);
     }
   };
+  
   return (
     <>
       <FormContainer>
