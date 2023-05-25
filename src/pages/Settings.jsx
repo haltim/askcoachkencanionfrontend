@@ -119,8 +119,8 @@ export default function Settings() {
             onChange={(e) => handleChange(e)}
           />
           <button type="Change Password">Change Password</button>
-          <button type="LogOut" onClick={handleLogOut}>LogOut</button>
         </form>
+        <button type="LogOut" onClick={handleLogOut}>LogOut</button>
 
       </FormContainer>
       <ToastContainer />
@@ -143,7 +143,7 @@ const FormContainer = styled.div`
     gap: 1rem;
     justify-content: center;
     img {
-      height: 5rem;
+      height: 3rem;
     }
     h1 {
       color: white;

@@ -37,22 +37,22 @@ export default function Login(props) {
     return true;
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = (event) => {
     const details = values;
     try {
+      event.preventDefault();
       const isValid = validateForm();
       if (isValid) {
-        const response = await axios.post(
-          "http://localhost:4000/user/login",
-          details
-        );
-        console.log(response);
-        localStorage.clear();
-        localStorage.setItem("token", JSON.stringify(response.data.token));
-        navigate("/");
+        axios
+          .post("http://localhost:4000/user/login", details)
+          .then((res) => {
+            console.log(res);
+            localStorage.clear();
+            localStorage.setItem("token", JSON.stringify(res.data.token));
+            navigate("/");
+          })
       } else {
-        throw new Error("Form validation failed");
+        throw new Error("Validation failed");
       }
     } catch (error) {
       console.error(error);
@@ -109,7 +109,7 @@ const FormContainer = styled.div`
     gap: 1rem;
     justify-content: center;
     img {
-      height: 5rem;
+      height: 3rem;
     }
     h1 {
       color: white;

@@ -103,7 +103,7 @@ const Container = styled.div`
       gap: 1rem;
       .avatar {
         img {
-          height: 4.3rem;
+          height: 4rem;
         }
       }
       .username {
