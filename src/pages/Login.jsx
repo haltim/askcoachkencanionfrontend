@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRoute } from "../utils/APIRoutes";
 import axios from "axios";
 import coachken from "../img/coachken.PNG";
 import LazyLoad from "react-lazyload";
 
 
-export default function Login(props) {
+export default function Login() {
   const navigate = useNavigate();
   const [values, setValues] = useState({ email: "", password: "" });
   const toastOptions = {
@@ -37,28 +36,33 @@ export default function Login(props) {
     return true;
   };
 
-  const handleSubmit = (event) => {
-    const details = values;
-    try {
-      event.preventDefault();
-      const isValid = validateForm();
-      if (isValid) {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const isValid = validateForm();
+    if (isValid) {
+      try {
+        const details = {
+          email: values.email,
+          password: values.password
+        };
+        
         axios
-          .post("http://localhost:4000/user/login", details)
-          .then((res) => {
-            console.log(res);
-            localStorage.clear();
-            localStorage.setItem("token", JSON.stringify(res.data.token));
-            navigate("/");
-          })
-      } else {
-        throw new Error("Validation failed");
+        .post("http://localhost:4000/user/login", details) // Replace the URL with the login endpoint
+        .then((res) => {
+          console.log(res);
+          localStorage.clear();
+          localStorage.setItem("token", JSON.stringify(res.data.token));
+          navigate("/chat"); // Replace the "/login" route with the appropriate route after successful login
+        })
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
       }
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
+    } else {
+      throw new Error("Validation failed");
     }
   };
+
 
   return (
     <>
@@ -72,7 +76,7 @@ export default function Login(props) {
           </div>
           <input
             type="text"
-            placeholder="Username"
+            placeholder="email"
             name="email"
             onChange={(e) => handleChange(e)}
             min="3"
@@ -86,6 +90,9 @@ export default function Login(props) {
           <button type="submit">Log In</button>
           <span>
             Don't have an account ? <Link to="/register">Create One.</Link>
+          </span>
+          <span>
+            Forgot Password ? <Link to="/register">Click here.</Link>
           </span>
         </form>
       </FormContainer>
@@ -109,10 +116,10 @@ const FormContainer = styled.div`
     gap: 1rem;
     justify-content: center;
     img {
-      height: 3rem;
+      height: 2.2rem;
     }
     h1 {
-      color: white;
+      color: #ff0000;
       text-transform: uppercase;
     }
   }
@@ -155,6 +162,14 @@ const FormContainer = styled.div`
   span {
     color: white;
     text-transform: uppercase;
+    a {
+      color: #D3D3D3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+  span2 {
+    color: white;
     a {
       color: #D3D3D3;
       text-decoration: none;

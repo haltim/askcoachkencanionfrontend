@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import coachken from "../img/coachken.PNG";
 import LazyLoad from "react-lazyload";
 
-export default function Settings() {
+export default function ForgotPassword() {
   const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
@@ -16,18 +16,18 @@ export default function Settings() {
     draggable: true,
     theme: "dark",
   };
-  const [values, setValues] = useState({
+  const [value, setValue] = useState({
+    email: "",
     password: "",
-    confirmPassword: "",
   });
 
 
   const handleChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    setValue({ ...value, [event.target.name]: event.target.value });
   };
 
   const handleValidation = () => {
-    const { password } = values;
+    const { password } = value;
     if (password.length < 8) {
       toast.error(
         "Password should be equal or greater than 8 characters.",
@@ -42,7 +42,7 @@ export default function Settings() {
   const handlePasswordChange = async (event) => {
     event.preventDefault();
     try {
-      const details = values;
+      const details = value;
       event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
@@ -63,10 +63,6 @@ export default function Settings() {
     }
   };
 
-  const handleLogOut = () => {
-    navigate("/login");
-  };
-
   return (
     <>
       <FormContainer>
@@ -78,21 +74,19 @@ export default function Settings() {
             <h1>Ask Coach Canion</h1>
           </div>
           <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            onChange={(e) => handleChange(e)}
+          />
+           <input
             type="password"
             placeholder="Password"
             name="password"
             onChange={(e) => handleChange(e)}
           />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            onChange={(e) => handleChange(e)}
-          />
           <button type="Change Password">Change Password</button>
         </form>
-        <NavLink to="/deleteaccount" >Delete Account</NavLink>
-        <button type="LogOut" onClick={handleLogOut}>LogOut</button>
 
       </FormContainer>
       <ToastContainer />

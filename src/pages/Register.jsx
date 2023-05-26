@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { registerRoute } from "../utils/APIRoutes";
 import coachken from "../img/coachken.PNG";
 import LazyLoad from "react-lazyload";
 
@@ -141,10 +140,10 @@ const FormContainer = styled.div`
     gap: 1rem;
     justify-content: center;
     img {
-      height: 3rem;
+      height: 2.2rem;
     }
     h1 {
-      color: white;
+      color: #ff0000;
       text-transform: uppercase;
     }
   }
