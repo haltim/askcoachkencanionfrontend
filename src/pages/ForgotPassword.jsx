@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import coachken from "../img/coachken.PNG";
 import LazyLoad from "react-lazyload";
 
-export default function ForgotPassword() {
+export default function Settings() {
   const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
@@ -16,33 +16,42 @@ export default function ForgotPassword() {
     draggable: true,
     theme: "dark",
   };
-  const [value, setValue] = useState({
+  const [values, setValues] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
 
   const handleChange = (event) => {
-    setValue({ ...value, [event.target.name]: event.target.value });
+    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   const handleValidation = () => {
-    const { password } = value;
-    if (password.length < 8) {
+    const { password, confirmPassword, email } = values;
+    if (password !== confirmPassword) {
+      toast.error(
+        "Password and confirm password should be same.",
+        toastOptions
+      );
+      return false;
+    } else if (password.length < 8) {
       toast.error(
         "Password should be equal or greater than 8 characters.",
         toastOptions
       );
       return false;
+    } else if (email === "") {
+      toast.error("Email is required.", toastOptions);
+      return false;
     }
-
     return true;
   };
 
   const handlePasswordChange = async (event) => {
     event.preventDefault();
     try {
-      const details = value;
+      const details = values;
       event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
@@ -63,6 +72,8 @@ export default function ForgotPassword() {
     }
   };
 
+ 
+
   return (
     <>
       <FormContainer>
@@ -79,10 +90,16 @@ export default function ForgotPassword() {
             name="email"
             onChange={(e) => handleChange(e)}
           />
-           <input
+          <input
             type="password"
             placeholder="Password"
             name="password"
+            onChange={(e) => handleChange(e)}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            name="confirmPassword"
             onChange={(e) => handleChange(e)}
           />
           <button type="Change Password">Change Password</button>

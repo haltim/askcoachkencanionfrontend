@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ForgotPasswordButton from "../components/ForgotPasswordButton";
-import axios from "axios";
 import coachken from "../img/coachken.PNG";
 import LazyLoad from "react-lazyload";
 
-
-export default function Login() {
+export default function DeleteAccount() {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ email: "", password: "" });
   const toastOptions = {
     position: "bottom-right",
     autoClose: 8000,
@@ -19,56 +16,48 @@ export default function Login() {
     draggable: true,
     theme: "dark",
   };
+  const [value, setValue] = useState({
+    email: "",
+  });
 
 
   const handleChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    setValue({ ...value, [event.target.name]: event.target.value });
   };
 
-  const validateForm = () => {
-    const { email, password } = values;
-    if (email === "") {
-      toast.error("Email and Password is required.", toastOptions);
-      return false;
-    } else if (password === "") {
-      toast.error("Email and Password is required.", toastOptions);
+  const handleValidation = () => {
+    const { email } = value;
+     if (email === "") {
+      toast.error("Email is required.", toastOptions);
       return false;
     }
     return true;
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const isValid = validateForm();
-    if (isValid) {
-      try {
-        const details = {
-          email: values.email,
-          password: values.password
-        };
-
-        axios
-          .post("http://localhost:4000/user/login", details) // Replace the URL with the login endpoint
-          .then((res) => {
-            console.log(res);
-            localStorage.clear();
-            localStorage.setItem("token", JSON.stringify(res.data.token));
-            navigate("/"); // Replace the "/login" route with the appropriate route after successful login
-          })
-      } catch (error) {
-        console.error(error);
-        alert(error.message);
+  const deleteAccount = async () => {
+    try {
+      const isValid = handleValidation(); // Assuming you have a validation function
+  
+      if (isValid) {
+        const res = await axios.post("http://localhost:4000/user/delete-account", value);
+        console.log(res);
+        localStorage.clear();
+        navigate("/login");
+      } else {
+        throw new Error("Account deletion failed");
       }
-    } else {
-      throw new Error("Validation failed");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
     }
   };
+  
 
 
   return (
     <>
       <FormContainer>
-        <form action="" onSubmit={(event) => handleSubmit(event)}>
+        <form action="" onSubmit={deleteAccount}>
           <div className="brand">
             <LazyLoad once>
               <img src={coachken} alt="" />
@@ -76,24 +65,16 @@ export default function Login() {
             <h1>Ask Coach Canion</h1>
           </div>
           <input
-            type="text"
-            placeholder="email"
+            type="email"
+            placeholder="Email"
             name="email"
             onChange={(e) => handleChange(e)}
-            min="3"
           />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="submit">Log In</button>
-          <span>
-            Don't have an account ? <Link to="/register">Create One.</Link>
-          </span>
-          <ForgotPasswordButton />
+          
+          <button type="Delete Account">Delete Account</button>
         </form>
+        
+
       </FormContainer>
       <ToastContainer />
     </>
@@ -118,7 +99,7 @@ const FormContainer = styled.div`
       height: 2.2rem;
     }
     h1 {
-      color: #ff0000;
+      color: 	#ff0000;
       text-transform: uppercase;
     }
   }
@@ -127,9 +108,9 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    background-color:  #424242;
+    background-color: #424242;
     border-radius: 2rem;
-    padding: 5rem;
+    padding: 3rem 5rem;
   }
   input {
     background-color: white;
@@ -162,15 +143,7 @@ const FormContainer = styled.div`
     color: white;
     text-transform: uppercase;
     a {
-      color: #D3D3D3;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  }
-  span2 {
-    color: white;
-    a {
-      color: #D3D3D3;
+      color: #4e0eff;
       text-decoration: none;
       font-weight: bold;
     }
