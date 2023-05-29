@@ -4,7 +4,7 @@ import ChatInput from "./ChatInput";
 import SettingsIcon from "./SettingsIcon";
 import Logout from "./Logout";
 import { v4 as uuidv4 } from "uuid";
-import coachken from "../img/coachken.PNG";
+import coachkenbest from "../img/coachkenbest.png";
 import SetAvatar from "./SetAvatar";
 import LazyLoad from "react-lazyload";
 
@@ -55,7 +55,7 @@ export default function ChatContainer({ currentChat, socket }) {
         <div className="user-details">
           <div className="avatar">
             <LazyLoad once>
-              <img src={coachken} alt="" />
+              <img src={coachkenbest} alt="" />
             </LazyLoad>
           </div>
         </div>

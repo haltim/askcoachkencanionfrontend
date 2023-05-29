@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import coachken from "../img/coachken.PNG";
+import coachkenbest from "../img/coachkenbest.png";
 import LazyLoad from "react-lazyload";
 
 export default function DeleteAccount() {
@@ -27,7 +27,7 @@ export default function DeleteAccount() {
 
   const handleValidation = () => {
     const { email } = value;
-     if (email === "") {
+    if (email === "") {
       toast.error("Email is required.", toastOptions);
       return false;
     }
@@ -36,22 +36,28 @@ export default function DeleteAccount() {
 
   const deleteAccount = async () => {
     try {
-      const isValid = handleValidation(); // Assuming you have a validation function
-  
+      const isValid = handleValidation();
+      const email=value.email;
+      // Assuming you have a validation function
+
       if (isValid) {
-        const res = await axios.post("http://localhost:4000/user/delete-account", value);
+        const response = await axios.post("http://localhost:4000/user/get-user-id", { email });
+
+        const userId = response.data.userId;
+
+        const res = await axios.delete(`http://localhost:4000/user/${userId}/delete-account`, value);
         console.log(res);
         localStorage.clear();
         navigate("/login");
       } else {
-        throw new Error("Account deletion failed");
+        toast.error("Account deletion Failed.", toastOptions);
       }
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
-  
+
 
 
   return (
@@ -60,7 +66,7 @@ export default function DeleteAccount() {
         <form action="" onSubmit={deleteAccount}>
           <div className="brand">
             <LazyLoad once>
-              <img src={coachken} alt="" />
+              <img src={coachkenbest} alt="" />
             </LazyLoad>
             <h1>Ask Coach Canion</h1>
           </div>
@@ -70,10 +76,10 @@ export default function DeleteAccount() {
             name="email"
             onChange={(e) => handleChange(e)}
           />
-          
+
           <button type="Delete Account">Delete Account</button>
         </form>
-        
+
 
       </FormContainer>
       <ToastContainer />
@@ -99,7 +105,7 @@ const FormContainer = styled.div`
       height: 2.2rem;
     }
     h1 {
-      color: 	#ff0000;
+      color: 	white;
       text-transform: uppercase;
     }
   }

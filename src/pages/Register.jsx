@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import coachken from "../img/coachken.PNG";
+import coachkenbest from "../img/coachkenbest.png";
 import LazyLoad from "react-lazyload";
 
 export default function Register() {
@@ -86,7 +86,7 @@ export default function Register() {
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <LazyLoad once>
-              <img src={coachken} alt="" />
+              <img src={coachkenbest} alt="" />
             </LazyLoad>
             <h1>Ask Coach Canion</h1>
           </div>
@@ -143,7 +143,7 @@ const FormContainer = styled.div`
       height: 2.2rem;
     }
     h1 {
-      color: #ff0000;
+      color: white;
       text-transform: uppercase;
     }
   }

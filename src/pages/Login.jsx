@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ForgotPasswordButton from "../components/ForgotPasswordButton";
 import axios from "axios";
-import coachken from "../img/coachken.PNG";
+import coachkenbest from "../img/coachkenbest.png";
 import LazyLoad from "react-lazyload";
 
 
@@ -71,7 +71,7 @@ export default function Login() {
         <form action="" onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <LazyLoad once>
-              <img src={coachken} alt="" />
+              <img src={coachkenbest} alt="" />
             </LazyLoad>
             <h1>Ask Coach Canion</h1>
           </div>
@@ -118,7 +118,7 @@ const FormContainer = styled.div`
       height: 2.2rem;
     }
     h1 {
-      color: #ff0000;
+      color: white;
       text-transform: uppercase;
     }
   }

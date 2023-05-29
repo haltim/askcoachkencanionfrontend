@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import coachken from "../img/coachken.PNG";
+import coachkenbest from "../img/coachkenbest.png";
 import LazyLoad from "react-lazyload";
 
 export default function Settings() {
@@ -52,11 +52,15 @@ export default function Settings() {
     event.preventDefault();
     try {
       const details = values;
+      const email = values.email;
       event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
+        const response = await axios.post("http://localhost:4000/user/get-user-id", { email });
+
+        const userId = response.data.userId;
         axios
-          .post("http://localhost:4000/user/change-password", details)
+          .post(`http://localhost:4000/user/${userId}/change-password`, details)
           .then((res) => {
             console.log(res);
             localStorage.clear();
@@ -75,7 +79,7 @@ export default function Settings() {
   const handleLogOut = () => {
     navigate("/login");
   };
-  
+
 
 
   return (
@@ -84,7 +88,7 @@ export default function Settings() {
         <form action="" onSubmit={(event) => handlePasswordChange(event)}>
           <div className="brand">
             <LazyLoad once>
-              <img src={coachken} alt="" />
+              <img src={coachkenbest} alt="" />
             </LazyLoad>
             <h1>Ask Coach Canion</h1>
           </div>
@@ -135,7 +139,7 @@ const FormContainer = styled.div`
       height: 2.2rem;
     }
     h1 {
-      color: 	#ff0000;
+      color: 	white;
       text-transform: uppercase;
     }
   }
