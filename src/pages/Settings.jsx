@@ -48,7 +48,7 @@ export default function Settings() {
     return true;
   };
 
-  const handlePasswordChange = async (event) => {
+  const handlePasswordChange = async (event, id) => {
     event.preventDefault();
     try {
       const details = values;
@@ -60,7 +60,7 @@ export default function Settings() {
 
         const userId = response.data.userId;
         axios
-          .post(`http://localhost:4000/user/${userId}/change-password`, details)
+          .post(`http://localhost:4000/user/${id}/change-password`, details)
           .then((res) => {
             console.log(res);
             localStorage.clear();

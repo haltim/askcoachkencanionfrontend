@@ -34,18 +34,15 @@ export default function DeleteAccount() {
     return true;
   };
 
-  const deleteAccount = async () => {
+  const deleteAccount = async (id) => {
     try {
       const isValid = handleValidation();
       const email=value.email;
       // Assuming you have a validation function
 
       if (isValid) {
-        const response = await axios.post("http://localhost:4000/user/get-user-id", { email });
 
-        const userId = response.data.userId;
-
-        const res = await axios.delete(`http://localhost:4000/user/${userId}/delete-account`, value);
+        const res = await axios.delete(`http://localhost:4000/user/${id}/delete-account`, value);
         console.log(res);
         localStorage.clear();
         navigate("/login");
