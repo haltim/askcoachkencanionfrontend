@@ -48,34 +48,36 @@ export default function Settings() {
     return true;
   };
 
-  const handlePasswordChange = async (event, id) => {
+  const handlePasswordChange = async (event) => {
     event.preventDefault();
     try {
       const details = values;
-      const email = values.email;
       event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
-        const response = await axios.post("http://localhost:4000/user/get-user-id", { email });
-
-        const userId = response.data.userId;
+        const token = localStorage.getItem("token");
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+  
         axios
-          .post(`http://localhost:4000/user/${id}/change-password`, details)
+          .put(`http://localhost:4000/user/change-password`, details, config)
           .then((res) => {
             console.log(res);
             localStorage.clear();
-            localStorage.setItem("token", JSON.stringify(res.data.token));
             navigate("/login");
-          })
+          });
       } else {
-        throw new Error("Passord change failed");
+        throw new Error("Password change failed");
       }
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
-
+  
   const handleLogOut = () => {
     navigate("/login");
   };
