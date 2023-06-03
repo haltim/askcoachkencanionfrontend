@@ -42,7 +42,7 @@ export default function DeleteAccount() {
 
       if (isValid) {
 
-        const res = await axios.delete(`http://localhost:4000/user/${id}/delete-account`, value);
+        const res = await axios.delete(`http://localhost:5000/user/${id}/delete-account`, value);
         console.log(res);
         localStorage.clear();
         navigate("/login");

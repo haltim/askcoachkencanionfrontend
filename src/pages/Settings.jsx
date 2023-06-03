@@ -17,7 +17,6 @@ export default function Settings() {
     theme: "dark",
   };
   const [values, setValues] = useState({
-    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -41,9 +40,6 @@ export default function Settings() {
         toastOptions
       );
       return false;
-    } else if (email === "") {
-      toast.error("Email is required.", toastOptions);
-      return false;
     }
     return true;
   };
@@ -52,32 +48,34 @@ export default function Settings() {
     event.preventDefault();
     try {
       const details = values;
-      event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
         const token = localStorage.getItem("token");
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-  
+
         axios
-          .put(`http://localhost:4000/user/change-password`, details, config)
+          .put(`http://localhost:5000/user/change-password`, details, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
           .then((res) => {
             console.log(res);
-            localStorage.clear();
             navigate("/login");
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("Password change failed");
           });
       } else {
         throw new Error("Password change failed");
       }
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      alert("Password change failed");
     }
   };
-  
+
+
   const handleLogOut = () => {
     navigate("/login");
   };
@@ -94,12 +92,6 @@ export default function Settings() {
             </LazyLoad>
             <h1>Ask Coach Canion</h1>
           </div>
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={(e) => handleChange(e)}
-          />
           <input
             type="password"
             placeholder="Password"

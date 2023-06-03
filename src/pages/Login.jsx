@@ -46,15 +46,24 @@ export default function Login() {
           email: values.email,
           password: values.password
         };
-
+  
         axios
           .post("http://localhost:4000/user/login", details) // Replace the URL with the login endpoint
           .then((res) => {
             console.log(res);
             localStorage.clear();
             localStorage.setItem("token", JSON.stringify(res.data.token));
+            localStorage.setItem("user_id", JSON.stringify(res.data.id));
             navigate("/"); // Replace the "/login" route with the appropriate route after successful login
           })
+          .catch((error) => {
+            if (error.response && error.response.status === 401) {
+              alert("Incorrect password or username"); // Display error message for incorrect password or username
+            } else {
+              console.error(error);
+              alert(error.message);
+            }
+          });
       } catch (error) {
         console.error(error);
         alert(error.message);
@@ -63,7 +72,7 @@ export default function Login() {
       throw new Error("Validation failed");
     }
   };
-
+  
 
   return (
     <>
