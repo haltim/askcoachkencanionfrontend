@@ -27,7 +27,7 @@ export default function Settings() {
   };
 
   const handleValidation = () => {
-    const { password, confirmPassword, email } = values;
+    const { password, confirmPassword } = values;
     if (password !== confirmPassword) {
       toast.error(
         "Password and confirm password should be same.",
@@ -44,36 +44,58 @@ export default function Settings() {
     return true;
   };
 
+  const getUserId = () => {
+    // Get the JWT token from your storage (e.g., localStorage or sessionStorage)
+    const token = localStorage.getItem('token'); // Replace 'token' with your token key
+
+    if (token) {
+      // Decode the token to access the user ID
+      const decodedToken = jwt_decode(token);
+      const userId = decodedToken.user.id;
+
+      return userId;
+    }
+
+    return null;
+  };
+
   const handlePasswordChange = async (event) => {
     event.preventDefault();
     try {
-      const details = values;
       const isValid = handleValidation();
-      if (isValid) {
-        const token = localStorage.getItem("token");
+      // Assuming you have a validation function
 
-        axios
-          .put(`http://localhost:5000/user/change-password`, details, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((res) => {
-            console.log(res);
-            navigate("/login");
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Password change failed");
-          });
-      } else {
-        throw new Error("Password change failed");
+      if (isValid) {
+        // Get the user ID and new password from your form inputs or state
+        const userId = getUserId(); // Replace with your own logic to get the user ID
+        const data = values.password
+
+        // Send the change password request
+        const response = await fetch('/update-password', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId, data }),
+        });
+
+        // Check the response status
+        if (response.ok) {
+          // Password change successful
+          alert('Password changed successfully');
+          // Perform any necessary actions after password change
+        } else {
+          // Password change failed
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        }
       }
     } catch (error) {
       console.error(error);
-      alert("Password change failed");
+      alert('Password change failed');
     }
   };
+
 
 
   const handleLogOut = () => {

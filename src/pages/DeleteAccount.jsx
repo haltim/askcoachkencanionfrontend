@@ -34,26 +34,56 @@ export default function DeleteAccount() {
     return true;
   };
 
-  const deleteAccount = async (id) => {
+  const getUserId = () => {
+    // Get the JWT token from your storage (e.g., localStorage or sessionStorage)
+    const token = localStorage.getItem('token'); // Replace 'token' with your token key
+
+    if (token) {
+      // Decode the token to access the user ID
+      const decodedToken = jwt_decode(token);
+      const userId = decodedToken.user.id;
+
+      return userId;
+    }
+
+    return null;
+  };
+  
+  const deleteAccount = async () => {
     try {
       const isValid = handleValidation();
-      const email=value.email;
       // Assuming you have a validation function
 
       if (isValid) {
+        // Get the user ID or any necessary data required for the delete account request
+        const userId = getUserId(); // Replace with your own logic to get the user ID
 
-        const res = await axios.delete(`http://localhost:5000/user/${id}/delete-account`, value);
-        console.log(res);
-        localStorage.clear();
-        navigate("/login");
-      } else {
-        toast.error("Account deletion Failed.", toastOptions);
+        // Send the delete account request
+        const response = await fetch('/delete-account', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId }),
+        });
+
+        // Check the response status
+        if (response.ok) {
+          // Account deletion successful
+          alert('Account deleted successfully');
+          // Perform any necessary actions after account deletion
+        } else {
+          // Account deletion failed
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+        }
       }
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
+
 
 
 
