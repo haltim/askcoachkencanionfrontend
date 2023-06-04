@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import jwtDecode from 'jwt-decode';
 import coachkenbest from "../img/coachkenbest.png";
 import LazyLoad from "react-lazyload";
 
@@ -50,7 +51,7 @@ export default function Settings() {
 
     if (token) {
       // Decode the token to access the user ID
-      const decodedToken = jwt_decode(token);
+      const decodedToken = jwtDecode(token);
       const userId = decodedToken.user.id;
 
       return userId;
@@ -71,7 +72,7 @@ export default function Settings() {
         const data = values.password
 
         // Send the change password request
-        const response = await fetch('/update-password', {
+        const response = await fetch('http://localhost:5000/user/update-password', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

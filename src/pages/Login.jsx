@@ -48,12 +48,10 @@ export default function Login() {
         };
   
         axios
-          .post("http://localhost:4000/user/login", details) // Replace the URL with the login endpoint
+          .post("http://localhost:5000/user/login", details) // Replace the URL with the login endpoint
           .then((res) => {
             console.log(res);
-            localStorage.clear();
             localStorage.setItem("token", JSON.stringify(res.data.token));
-            localStorage.setItem("user_id", JSON.stringify(res.data.id));
             navigate("/"); // Replace the "/login" route with the appropriate route after successful login
           })
           .catch((error) => {
