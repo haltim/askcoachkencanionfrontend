@@ -8,9 +8,8 @@ const handlePasswordChange = async (event) => {
         const userId = await getUserId();// Replace this with the logic to get the user's ID
   
         axios
-          .post(`http://localhost:4000/user/${userId}/change-password`, details) // Send the request to the user's ID
+          .post(`${process.env.REACT_APP_API_URL}/user/${userId}/change-password`, details) // Send the request to the user's ID
           .then((res) => {
-            console.log(res);
             localStorage.clear();
             localStorage.setItem("token", JSON.stringify(res.data.token));
             navigate("/login");
